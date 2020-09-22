@@ -1,32 +1,32 @@
 package interfaceview;
 import java.awt.event.*;
 import javax.swing.*;
-class Controlador implements ActionListener{
+class Controlador implements ActionListener {
     private Modelo modelo;
     private Vista vista;
-    
-    public Controlador(Modelo m,Vista v){
+    private Encriptado encriptado = new Encriptado();
+    public Controlador(Modelo m, Vista v) {
         modelo = m;
         vista = v;
         vista.setController(this);
     }
-    
     @Override
-    public void actionPerformed(ActionEvent event){
-        switch(event.getActionCommand()){
+    public void actionPerformed(ActionEvent event) {
+        System.out.println(event.getActionCommand());
+        switch (event.getActionCommand()) {
             case VistaInterface.ABRIR:
+                System.out.println("abrir");
                 modelo.setFile(vista.getFileName());
                 vista.setText(modelo.read());
                 break;
             case VistaInterface.ENCRYPT:
-                modelo.setContenido(vista.getText());
-                vista.setText(modelo.encript());
+                modelo.encript();
                 break;
             case VistaInterface.DECRYPT:
-                modelo.setContenido(vista.getText());
-                vista.setText(modelo.decript());
+                modelo.decript();
                 break;
             case VistaInterface.GUARDAR:
+                System.out.println("guardar");
                 modelo.setFileName(vista.getFileName());
                 modelo.setContenido(vista.getText());
                 modelo.write();
@@ -36,10 +36,11 @@ class Controlador implements ActionListener{
                 break;
         }
     }
-    public void run(){
+
+    public void run() {
         vista.setLocationRelativeTo(null);
         vista.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        vista.setSize(500,230);
+        vista.setSize(500, 230);
         vista.setVisible(true);
     }
 }
